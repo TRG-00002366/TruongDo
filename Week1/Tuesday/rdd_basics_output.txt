@@ -1,0 +1,12 @@
+Numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+Partitions: 16
+Partitions (explicit): 4
+Range sample: [1, 2, 3, 4, 5]
+Squared: [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+Prefixed: [2, 4, 6, 8, 10]
+Evens: [2, 4, 6, 8, 10]
+Greater than 5: [6, 7, 8, 9, 10]
+Combined: [6, 8, 10]
+Words: ['Hello', 'World', 'Apache', 'Spark', 'is', 'Fast', 'PySpark', 'is', 'Python', 'plus', 'Spark']
+Word lengths: [('Hello', 5), ('World', 5), ('Apache', 6), ('Spark', 5), ('is', 2), ('Fast', 4), ('PySpark', 7), ('is', 2), ('Python', 6), ('plus', 4), ('Spark', 5)]
+Error words: ['ERROR:', 'CONNECTION', 'FAILED', 'ERROR:', 'TIMEOUT', 'OCCURRED']
