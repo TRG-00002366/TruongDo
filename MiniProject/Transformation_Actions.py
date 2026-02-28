@@ -1,5 +1,20 @@
 from pyspark.sql import SparkSession
 import re
+import os 
+import shutil
+
+#O6 Loading from multiple sources
+def load_text_file(sc, path):
+    if not os.path.isfile(path):
+        print(f"ERROR: File not found -> {path}")
+        raise SystemExit(1)
+
+    rdd = sc.textFile(path)
+
+    # force Spark to read immediately
+    rdd.take(1)
+
+    return rdd
 
 spark = SparkSession.builder \
     .master("local[*]") \
@@ -8,7 +23,20 @@ spark = SparkSession.builder \
 
 sc = spark.sparkContext
 
-lines = sc.textFile("sherlock_holmes.txt")
+input_path = "/home/truongdo/TruongDo/MiniProject/sherlock_holmes.txt"
+lines = load_text_file(sc, input_path)
+
+#O2 Global Error (Accumulator) 
+blank_line_acc = sc.accumulator(0)
+
+def count_blank_lines(line):
+    if line.strip() == "":
+        blank_line_acc.add(1)
+    return line
+
+lines = lines.map(count_blank_lines)
+lines.count()
+print("Blank lines:", blank_line_acc.value)
 
 # Load file
 
@@ -29,10 +57,9 @@ stopwords = {
     "of","to","in","on","for","and","or","but",
     "i","you","he","she","it","we","they"
 }
-# Broadcast stopwords
-broadcast_stopwords = sc.broadcast(stopword_list)
-
-filtered_words = words.filter(lambda word: word not in stopwords)
+# Broadcast stopwords O1 & T1
+broadcast_stopwords = sc.broadcast(stopwords)
+filtered_words = words.filter(lambda word: word not in broadcast_stopwords.value)
 
 #T4 Character Count
 total_characters = lines.map(lambda l: len(l)).sum()
@@ -59,19 +86,17 @@ count_word = (first_words.map(lambda word: (word, 1)).reduceByKey(lambda a, b: a
 
 #T10 Distributions
 # Total number of words
-total_words = filtered_words.count()
-
-# Total number of characters across all words
-total_word_characters = filtered_words.map(lambda w: len(w)).sum()
+total_chars, total_words = (filtered_words.map(lambda w: (len(w),1)).reduce(lambda a, b: (a[0] + b[0], a[1] + b[1])))
 
 # Average word length
-average_word_length = total_word_characters / total_words
+average_word_length = total_chars / total_words
 
 #T11 Distribution of word lengths
 word_length_counts = (filtered_words.map(lambda w: (len(w), 1)).reduceByKey(lambda a, b: a + b))
-sorted_length_counts = word_length_counts.sortByKey()
 
 #T12 Chapter Extraction
+all_lines = lines.collect()
+
 start_title = "A SCANDAL IN BOHEMIA"
 end_title = "THE RED-HEADED LEAGUE"
 
@@ -88,7 +113,34 @@ for line in all_lines:
     if inside_section:
         section_lines.append(line)
 
-#O1 Stopword filtering (broadcast)
-filtered_words = words.filter(lambda word: word not in broadcast_stopwords.value)
+
+#O3 Word-Length Pairing
+length_word_pairs = filtered_words.map(lambda w: (len(w), w))
+
+#O4 Character Fequency
+letter_counts = (lines.map(lambda l: l.lower()).flatMap(lambda line: list(line)).filter(lambda c: c.isalpha())
+    .map(lambda c: (c, 1)).reduceByKey(lambda a, b: a + b).sortByKey())
+
+#O5 Grouped Word Lists
+grouped_words = (filtered_words.map(lambda w: (w[0], w)).groupByKey().mapValues(list))
+
+#O7 Saving Analytics Results
+word_counts = filtered_words.map(lambda w: (w, 1)).reduceByKey(lambda a, b: a + b)
+output_rdd = word_counts.map(lambda x: f"{x[0]}\t{x[1]}")
+
+output_path = "Holmes_WordCount_Results"
+
+if os.path.exists(output_path):
+    shutil.rmtree(output_path)
+
+print("Total characters:", total_characters)
+print("Longest line length:", longest_len)
+print("Watson lines:", len(results))
+print("Unique vocab:", unique_word_count)
+print("Avg word length:", average_word_length)
+print("Top 10 words:", top_10_words)
+
+output_rdd.saveAsTextFile(output_path)
+print("Saved word count to:", output_path)
 
 spark.stop()
