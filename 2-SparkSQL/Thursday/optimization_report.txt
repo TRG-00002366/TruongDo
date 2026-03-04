@@ -1,0 +1,16 @@
+OPTIMIZATION REPORT
+===================
+Baseline Time:      8.17s
+Optimized Time:     2.60s
+Improvement:        68.2 % faster
+
+Techniques Applied:
+Caching: [Cached sales-customers and sales-products joins since they are used more than once within the pipeline]
+Partitioning: [Reduced the number of shuffle partitions to 8, and repartitioned sales on 'customer_id' column to optimize its join with customers]
+Bucketing: [Bucketed sales and customers on 'customer_id' and products on 'product_id' to reduce shuffles]
+
+Key Learnings:
+[My insight was that Spark performance is usually limited by data movement rather than computation. Optimizations like caching reused datasets and aligning
+ partition strategies with join keys can drastically improve performance.]
+[Just 5 joins and aggregations with a 50,000 row sales table already takes almost 10 seconds. This definitely shows that proper optimization is needed for big data.
+ Caching and partitioning showed big improvements particularly]
