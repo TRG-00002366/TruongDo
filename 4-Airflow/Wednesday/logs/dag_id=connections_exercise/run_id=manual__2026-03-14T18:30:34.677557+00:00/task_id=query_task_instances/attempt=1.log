@@ -1,0 +1,25 @@
+[2026-03-14T18:30:37.964+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: connections_exercise.query_task_instances manual__2026-03-14T18:30:34.677557+00:00 [queued]>
+[2026-03-14T18:30:37.971+0000] {taskinstance.py:1159} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: connections_exercise.query_task_instances manual__2026-03-14T18:30:34.677557+00:00 [queued]>
+[2026-03-14T18:30:37.972+0000] {taskinstance.py:1361} INFO - Starting attempt 1 of 1
+[2026-03-14T18:30:37.982+0000] {taskinstance.py:1382} INFO - Executing <Task(PythonOperator): query_task_instances> on 2026-03-14 18:30:34.677557+00:00
+[2026-03-14T18:30:37.986+0000] {standard_task_runner.py:57} INFO - Started process 502 to run task
+[2026-03-14T18:30:37.988+0000] {standard_task_runner.py:84} INFO - Running: ['***', 'tasks', 'run', 'connections_exercise', 'query_task_instances', 'manual__2026-03-14T18:30:34.677557+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/connections_dag.py', '--cfg-path', '/tmp/tmp1tjwii1t']
+[2026-03-14T18:30:37.991+0000] {standard_task_runner.py:85} INFO - Job 4: Subtask query_task_instances
+[2026-03-14T18:30:38.027+0000] {task_command.py:416} INFO - Running <TaskInstance: connections_exercise.query_task_instances manual__2026-03-14T18:30:34.677557+00:00 [running]> on host e2ab535c3c7f
+[2026-03-14T18:30:38.084+0000] {taskinstance.py:1662} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='connections_exercise' AIRFLOW_CTX_TASK_ID='query_task_instances' AIRFLOW_CTX_EXECUTION_DATE='2026-03-14T18:30:34.677557+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-03-14T18:30:34.677557+00:00'
+[2026-03-14T18:30:38.098+0000] {base.py:73} INFO - Using connection ID 'exercise_postgres' for task execution.
+[2026-03-14T18:30:38.101+0000] {sql.py:418} INFO - Running statement: 
+        SELECT dag_id, task_id, state 
+        FROM task_instance 
+        ORDER BY start_date DESC 
+        LIMIT 10
+    , parameters: None
+[2026-03-14T18:30:38.102+0000] {sql.py:427} INFO - Rows affected: 3
+[2026-03-14T18:30:38.102+0000] {logging_mixin.py:154} INFO - Recent task instances:
+[2026-03-14T18:30:38.102+0000] {logging_mixin.py:154} INFO - DAG: connections_exercise, Task: query_task_instances, State: running
+[2026-03-14T18:30:38.102+0000] {logging_mixin.py:154} INFO - DAG: connections_exercise, Task: show_connection_info, State: success
+[2026-03-14T18:30:38.103+0000] {logging_mixin.py:154} INFO - DAG: connections_exercise, Task: query_database, State: success
+[2026-03-14T18:30:38.103+0000] {python.py:194} INFO - Done. Returned value was: 3
+[2026-03-14T18:30:38.119+0000] {taskinstance.py:1400} INFO - Marking task as SUCCESS. dag_id=connections_exercise, task_id=query_task_instances, execution_date=20260314T183034, start_date=20260314T183037, end_date=20260314T183038
+[2026-03-14T18:30:38.162+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2026-03-14T18:30:38.173+0000] {taskinstance.py:2778} INFO - 0 downstream tasks scheduled from follow-on schedule check

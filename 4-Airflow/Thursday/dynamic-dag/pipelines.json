@@ -1,0 +1,22 @@
+{
+  "clients": [
+    {
+      "name": "client_sales",
+      "tables": ["orders", "customers", "transactions"],
+      "schedule": "@daily",
+      "priority": "high"
+    },
+    {
+      "name": "client_marketing",
+      "tables": ["campaigns", "leads", "ad_metrics"],
+      "schedule": "@hourly",
+      "priority": "medium"
+    },
+    {
+      "name": "client_finance",
+      "tables": ["invoices", "payments", "expenses"],
+      "schedule": "@weekly",
+      "priority": "high"
+    }
+  ]
+}
