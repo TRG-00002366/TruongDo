@@ -5876,3 +5876,10 @@ SyntaxError: invalid syntax
 [2026-03-14T20:43:16.974+0000] {logging_mixin.py:154} INFO - [2026-03-14T20:43:16.974+0000] {dag.py:2941} INFO - Sync 1 DAGs
 [2026-03-14T20:43:16.986+0000] {logging_mixin.py:154} INFO - [2026-03-14T20:43:16.986+0000] {dag.py:3722} INFO - Setting next_dagrun for my_first_pipeline to None, run_after=None
 [2026-03-14T20:43:17.001+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/my_first_dag.py took 0.062 seconds
+[2026-03-14T20:43:49.034+0000] {processor.py:157} INFO - Started process (PID=4786) to work on /opt/airflow/dags/my_first_dag.py
+[2026-03-14T20:43:49.035+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/my_first_dag.py for tasks to queue
+[2026-03-14T20:43:49.036+0000] {logging_mixin.py:154} INFO - [2026-03-14T20:43:49.035+0000] {dagbag.py:536} INFO - Filling up the DagBag from /opt/airflow/dags/my_first_dag.py
+[2026-03-14T20:43:49.045+0000] {processor.py:839} INFO - DAG(s) dict_keys(['my_first_pipeline']) retrieved from /opt/airflow/dags/my_first_dag.py
+[2026-03-14T20:43:49.069+0000] {logging_mixin.py:154} INFO - [2026-03-14T20:43:49.068+0000] {dag.py:2941} INFO - Sync 1 DAGs
+[2026-03-14T20:43:49.080+0000] {logging_mixin.py:154} INFO - [2026-03-14T20:43:49.080+0000] {dag.py:3722} INFO - Setting next_dagrun for my_first_pipeline to None, run_after=None
+[2026-03-14T20:43:49.096+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/my_first_dag.py took 0.065 seconds
